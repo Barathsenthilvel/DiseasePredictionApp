@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Disease Prediction App</title>
+</head>
+<body>
+    <h1>Disease Prediction</h1>
+
+    <form method="post">
+        <label>Enter your symptoms (comma separated):</label><br>
+        <input type="text" name="symptoms" size="50" required
+               value="{{ request.form.symptoms if request.method == 'POST' else '' }}"><br><br>
+        <input type="submit" value="Predict">
+    </form>
+{% if prediction %}
+  <div style="border: 2px solid #2196F3; padding: 20px; border-radius: 12px; background: #e3f2fd; max-width: 700px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <h2 style="color: #0d47a1;">Predicted Disease: {{ prediction }}</h2>
+    
+    {% if description %}
+      <p style="font-size: 16px; color: #1a237e; line-height: 1.6;">
+        <strong>Description:</strong> {{ description }}
+      </p>
+    {% endif %}
+    
+    {% if precautions %}
+      <p><strong>Precautions:</strong></p>
+      <div>
+        {% for p in precautions %}
+          <span style="display: inline-block; background: #64b5f6; color: white; padding: 6px 12px; border-radius: 15px; margin: 3px 6px; font-size: 14px;">
+            {{ p }}
+          </span>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+
+
+    <h2>Symptom Frequency Plot</h2>
+<img src="data:image/png;base64,{{ plot_url }}" alt="Symptom Frequency Plot">
+
+</body>
+</html>
